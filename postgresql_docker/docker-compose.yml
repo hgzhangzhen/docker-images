@@ -1,0 +1,27 @@
+version "3"
+
+services：
+   pgsql:
+     image: postgres:15.2-alpine
+     container_name: postgresql
+     ports:
+        - 5432:5432
+     environment:
+        - POSTGRES_DB=mydev
+        - POSTGRES_USER=pgadmin
+        - POSTGRES_PASSWORD=123456
+     volumes:
+        - ./pgsql/datadir:/var/lib/postgresql/data
+     restart: always
+
+   pgadmin4:
+     image: dpage/pgadmin4:6.21
+     container_name: web_pgadmin4
+     ports:
+       - 80:80
+     environment:
+       - PGADMIN_DEFAULT_EMAIL=pgadmin@zz.com
+       - PGADMIN_DEFAULT_PASSWORD=123456
+     links:
+       - pgsql
+     restart: always
